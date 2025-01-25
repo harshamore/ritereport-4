@@ -2,12 +2,14 @@ import streamlit as st
 import pandas as pd
 import sqlite3
 import os
+import openai
 from openai import OpenAI
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Set OpenAI API key from Streamlit secrets
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # Database setup
 def init_db():
