@@ -1,15 +1,7 @@
 import streamlit as st
 import pandas as pd
 import sqlite3
-import os
-import openai
 from openai import OpenAI
-from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
-# Set OpenAI API key from Streamlit secrets
-openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # Database setup
 def init_db():
@@ -21,13 +13,15 @@ def init_db():
                   context TEXT,
                   classification_type TEXT,
                   label_path TEXT,
-                  label_code TEXT,
                   reasoning TEXT,
                   ind_as TEXT,
                   confirmed BOOLEAN,
                   timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
     conn.commit()
     conn.close()
+
+# Initialize OpenAI client
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 # Structured labels
 LABEL_HIERARCHY = {
@@ -223,7 +217,6 @@ def save_mapping(text, context, classification_type, label_path, reasoning, ind_
     conn.commit()
     conn.close()
 
-# Streamlit app
 def main():
     st.title("IND AS Account Mapper")
     init_db()
