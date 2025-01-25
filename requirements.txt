@@ -1,0 +1,6 @@
+streamlit 
+pandas 
+openpyxl 
+sqlite3 
+python-dotenv 
+openai
